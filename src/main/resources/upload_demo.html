@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件上传测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        fieldset {
+            border: 1px solid #aaa;
+            padding: 20px;
+        }
+        legend {
+            padding: 0 10px;
+            font-weight: bold;
+        }
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+        input[type="submit"] {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>  
+    <fieldset>  
+        <legend>文件上传</legend>  
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="file">选择文件：
+                <input type="file" id="file" name="file" size="20">
+            </label>
+            <label for="bussessType">业务类型：
+                <input type="text" id="bussessType" name="bussessType" size="20">
+            </label>
+            <input type="submit" value="上传">
+        </form>  
+    </fieldset>  
+    <div id="uploadStatus"></div>
+
+    <script>
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+        event.preventDefault();  // 防止表单默认提交行为
+        const formData = new FormData(this);  // 创建FormData对象
+
+        // 更换为您的后端接口地址
+        const url = "http://120.46.75.33:8084/test1";  
+
+        fetch(url, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+			console.log(data);
+            document.getElementById('uploadStatus').textContent = '上传成功，文件URL：' + data.message;
+        })
+        .catch(error => {
+            document.getElementById('uploadStatus').textContent = '上传失败';
+            console.error('Error:', error);
+        });
+    });
+    </script>
+</body>
+</html>
